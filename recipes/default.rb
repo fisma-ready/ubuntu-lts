@@ -199,3 +199,10 @@ cookbook_file "/etc/ssh/sshd_config" do
   owner "root"
   group "root"
 end
+
+###
+# Get some banners up and running!
+# See https://github.com/18F/ubuntu/blob/master/hardening.md#ssh-settings
+###
+## TODO
+
