@@ -115,3 +115,11 @@ cookbook_file "/etc/default/grub" do
   group "root"
   notifies :run, 'execute[update-grub]', :immediately
 end
+
+# Time and Space
+cookbook_file "/etc/audit/audit.rules" do
+  source "etc/audit/audit.rules"
+  mode 0640
+  owner "root"
+  group "root"
+end
