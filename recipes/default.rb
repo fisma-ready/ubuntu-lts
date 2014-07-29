@@ -162,3 +162,29 @@ crons.each do |cron|
     action :create
   end
 end
+
+###
+# Password Policy
+# See https://github.com/18F/ubuntu/blob/master/hardening.md#password-policy
+###
+package "libpam-cracklib" do
+  action :install
+end
+cookbook_file "/etc/pam.d/common-password" do
+  source "etc/pam.d/common-password"
+  mode 0644
+  owner "root"
+  group "root"
+end
+cookbook_file "/etc/pam.d/login" do
+  source "etc/pam.d/login"
+  mode 0644
+  owner "root"
+  group "root"
+end
+cookbook_file "/etc/login.defs" do
+  source "etc/login.defs"
+  mode 0644
+  owner "root"
+  group "root"
+end
