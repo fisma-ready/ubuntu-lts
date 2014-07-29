@@ -108,13 +108,10 @@ end
 ###
 
 # Booting
-cookbook_file "/etc/grub.d/40_custom" do
-  source "40_custom"
-  mode 0755
+cookbook_file "/etc/default/grub" do
+  source "etc/default/grub"
+  mode 0644
   owner "root"
   group "root"
   notifies :run, 'execute[update-grub]', :immediately
-end
-execute 'update-grub' do
-  command 'update-grub'
 end
