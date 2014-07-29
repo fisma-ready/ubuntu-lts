@@ -188,3 +188,14 @@ cookbook_file "/etc/login.defs" do
   owner "root"
   group "root"
 end
+
+###
+# SSH Settings
+# See https://github.com/18F/ubuntu/blob/master/hardening.md#ssh-settings
+###
+cookbook_file "/etc/ssh/sshd_config" do
+  source "etc/ssh/sshd_config"
+  mode 0600
+  owner "root"
+  group "root"
+end
