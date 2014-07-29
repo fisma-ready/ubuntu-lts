@@ -33,7 +33,7 @@ end
 # See https://github.com/18F/ubuntu/blob/master/hardening.md
 ###
 cookbook_file "/etc/modprobe.d/18Fhardened.conf" do
-  source "18Fhardened.conf"
+  source "etc/modprobe.d/18Fhardened.conf"
   mode 0644
   owner "root"
   group "root"
@@ -53,7 +53,7 @@ end
 
 # TODO - turn the encrypted password in to a variable
 cookbook_file "/etc/grub.d/40_custom" do
-  source "40_custom"
+  source "etc/grub.d/40_custom"
   mode 0755
   owner "root"
   group "root"
@@ -86,11 +86,10 @@ icmp_settings = [
   "net.ipv4.conf.default.log_martians=1"
 ]
 cookbook_file "/etc/sysctl.conf" do
-  source "sysctl.conf"
+  source "etc/sysctl.conf"
   mode 0644
   owner "root"
   group "root"
-  notifies :run, 'execute[update-grub]', :immediately
 end
 
 icmp_settings.each do |icmp_setting|
@@ -101,4 +100,21 @@ icmp_settings.each do |icmp_setting|
 end
 execute 'flush-sysctl' do
   command '/sbin/sysctl -w net.ipv4.route.flush=1 && /sbin/sysctl -w net.ipv6.route.flush=1'
+end
+
+###
+# Audit Strategy!
+# See https://github.com/18F/ubuntu/blob/master/hardening.md#audit-strategy
+###
+
+# Booting
+cookbook_file "/etc/grub.d/40_custom" do
+  source "40_custom"
+  mode 0755
+  owner "root"
+  group "root"
+  notifies :run, 'execute[update-grub]', :immediately
+end
+execute 'update-grub' do
+  command 'update-grub'
 end
