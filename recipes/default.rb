@@ -123,3 +123,40 @@ cookbook_file "/etc/audit/audit.rules" do
   owner "root"
   group "root"
 end
+
+###
+# System Access, Authentication and Authorization
+# See https://github.com/18F/ubuntu/blob/master/hardening.md#system-access-authentication-and-authorization
+###
+crons = [
+  "/etc/crontab",
+  "/etc/cron.hourly",
+  "/etc/cron.daily",
+  "/etc/cron.weekly",
+  "/etc/cron.monthly",
+  "/etc/cron.d",
+  
+]
+crons.each do |cron|
+  file "#{cron}" do
+    owner "root"
+    group "root"
+    mode "0700"
+    action :create
+  end
+end
+file "/etc/at.deny" do
+  action :delete
+end
+file "/etc/cron.allow" do
+  owner "root"
+  group "root"
+  mode "0600"
+  action :create
+end
+file "/etc/cron.allow" do
+  owner "root"
+  group "root"
+  mode "0600"
+  action :create
+end
