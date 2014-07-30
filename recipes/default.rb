@@ -9,6 +9,7 @@
 
 include_recipe 'apt'
 include_recipe 'nginx'
+include_recipe 'git'
 
 
 # Set up nginx default config
