@@ -52,14 +52,23 @@ file "/boot/grub/grub.cfg" do
   action :create
 end
 
-# TODO - turn the encrypted password in to a variable
-cookbook_file "/etc/grub.d/40_custom" do
-  source "etc/grub.d/40_custom"
+chef_gem "pbkdf2" do
+  action :install
+end
+
+require "pbkdf2"
+
+template "/etc/grub.d/40_custom" do
+  source "etc/grub.d/40_custom.erb"
   mode 0755
   owner "root"
   group "root"
+  variables({
+     :encrypted_password => PBKDF2.new(:password=>node[:grub_passwd], :salt=>"***REMOVED***", :iterations=>10000).hex_string
+  })
   notifies :run, 'execute[update-grub]', :immediately
 end
+
 execute 'update-grub' do
   command 'update-grub'
 end
@@ -118,6 +127,13 @@ cookbook_file "/etc/default/grub" do
 end
 
 # Time and Space
+directory "/etc/audit" do
+  owner "root"
+  group "root"
+  mode 00640
+  action :create
+end
+
 cookbook_file "/etc/audit/audit.rules" do
   source "etc/audit/audit.rules"
   mode 0640
@@ -135,28 +151,30 @@ end
 file "/etc/cron.allow" do
   owner "root"
   group "root"
-  mode "0600"
+  mode "0700"
   action :create
 end
-file "/etc/cron.allow" do
+file "/etc/at.allow" do
   owner "root"
   group "root"
-  mode "0600"
+  mode "0700"
   action :create
 end
-
+file "/etc/crontab" do
+  owner "root"
+  group "root"
+  mode "0700"
+  action :create
+end
 crons = [
-  "/etc/crontab",
   "/etc/cron.hourly",
   "/etc/cron.daily",
   "/etc/cron.weekly",
   "/etc/cron.monthly",
-  "/etc/cron.d",
-  "/etc/cron.allow",
-  "/etc/at.allow"
+  "/etc/cron.d"
 ]
 crons.each do |cron|
-  file "#{cron}" do
+  directory "#{cron}" do
     owner "root"
     group "root"
     mode "0700"

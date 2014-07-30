@@ -1,11 +1,9 @@
 {
   "variables": {
-	  "account_id": "", 
 	  "aws_access_key_id": "", 
 	  "aws_secret_key": "", 
 	  "s3_bucket": "", 
-	  "x509_cert_path": "", 
-	  "x509_key_path": ""
+	  "grub_passwd": ""
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -14,11 +12,8 @@
     "region": "us-east-1",
     "source_ami": "ami-a427efcc",
     "instance_type": "t1.micro",
-	"account_id": "{{user `account_id`}}",
     "ssh_username": "ubuntu",
     "ami_name": "18F Baseline Ubuntu ({{timestamp}} - Packer)",
-	"x509_cert_path": "{{user `x509_cert_path`}}",
-	"x509_key_path": "{{user `x509_key_path`}}",
 	"ami_block_device_mappings": [
 		{
 			"device_name": "/dev/sdb",
@@ -29,6 +24,9 @@
   "provisioners": [{
 	    "type": "chef-solo",
 		"cookbook_paths": [ "../vendor/cookbooks" ],
-		"run_list": [ "packer::default" ]
+		"run_list": [ "packer::default" ],
+		"json": {
+			"grub_passwd": "{{user `grub_passwd`}}"
+		}
   }]
 }
