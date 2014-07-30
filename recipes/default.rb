@@ -205,5 +205,10 @@ end
 # Get some banners up and running!
 # See https://github.com/18F/ubuntu/blob/master/hardening.md#ssh-settings
 ###
-## TODO
+cookbook_file "/etc/update-motd.d/00-header" do
+  source "etc/update-motd.d/00-header"
+  mode 0755
+  owner "root"
+  group "root"
+end
 
