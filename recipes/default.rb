@@ -64,7 +64,7 @@ template "/etc/grub.d/40_custom" do
   owner "root"
   group "root"
   variables({
-     :encrypted_password => PBKDF2.new(:password=>node[:grub_passwd], :salt=>"***REMOVED***", :iterations=>10000).hex_string
+     :encrypted_password => PBKDF2.new(:password=>node[:grub_passwd], :salt=>"0ru3280th0428fh2480ry258ty0h4280toyih2408iowkty2hio4tyhf8genoiwrtyfuh8ewion", :iterations=>10000).hex_string
   })
   notifies :run, 'execute[update-grub]', :immediately
 end
