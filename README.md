@@ -6,6 +6,20 @@ This project creates hardened, FISMA-compliant Ubuntu LTS AMIs that are suitable
 
 Prepared and maintained by **[18F](https://18f.gsa.gov)**, a technology team inside the US federal government.
 
+## How to use this
+
+This project:
+
+* Takes a **fresh Ubuntu 14.04 LTS AMI** (`ami-9eaa1cf6`), as published by Canonical:
+
+![1404-lts](docs/ubuntu-1404.png)
+
+* Launches a `m3.medium` instance from this AMI in your AWS account's Classic region (not a VPC).
+
+* Uses the included Chef cookbooks and templates to connect to the instance and configure it to match the Center for Internet Security's baseline security controls.
+
+* Creates a new AMI from the configured instance, and prints out the AMI ID.
+
 ## Setup
 
 * Install [Packer for your OS](http://www.packer.io/downloads.html). At press time, we used Packer 0.7.1.
