@@ -12,7 +12,7 @@ Prepared and maintained by **[18F](https://18f.gsa.gov)**, a technology team ins
 
 ![1404-lts](docs/ubuntu-1404.png)
 
-* Launches a `m3.medium` instance from this AMI in your AWS account's Classic region (not a VPC).
+* Launches an `m3.medium` instance from this AMI in your AWS account's Classic region (not a VPC).
 
 * Uses the included Chef cookbooks and templates to connect to the instance and configure it to match the Center for Internet Security's baseline security controls.
 
