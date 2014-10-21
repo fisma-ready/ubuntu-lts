@@ -1,5 +1,5 @@
 #!/bin/bash
-rm -r ../vendor/cookbooks
+rm -rf ../vendor/cookbooks
 berks vendor ../vendor/cookbooks
 packer build \
   -var "aws_access_key_id=$AWS_ACCESS_KEY_ID" \

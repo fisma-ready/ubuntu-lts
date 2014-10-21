@@ -13,20 +13,14 @@
     "source_ami": "ami-9eaa1cf6",
     "instance_type": "m3.medium",
     "ssh_username": "ubuntu",
-    "ami_name": "18F Baseline Ubuntu ({{timestamp}} - Packer)",
-	"ami_block_device_mappings": [
-		{
-			"device_name": "/dev/sdb",
-			"virtual_name": "ephemeral0"
-		}
-	]
+    "ami_name": "18F Baseline Ubuntu ({{timestamp}} - Packer)"
   }],
   "provisioners": [{
 	    "type": "chef-solo",
 		"cookbook_paths": [ "../vendor/cookbooks" ],
 		"run_list": [ "packer::default" ],
 		"json": {
-			"grub_passwd": "{{user `grub_passwd`}}"
+			"grub_passwd": "hello"
 		}
   }]
 }

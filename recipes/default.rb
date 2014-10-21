@@ -36,38 +36,6 @@ cookbook_file "/etc/modprobe.d/18Fhardened.conf" do
   group "root"
 end
 
-###
-# Boot settings
-# See https://github.com/18F/ubuntu/blob/master/hardening.md
-###
-# Set permissions of /boot/grub/grub.cfg
-file "/boot/grub/grub.cfg" do
-  owner "root"
-  group "root"
-  mode "0600"
-  action :create
-end
-
-chef_gem "pbkdf2" do
-  action :install
-end
-
-require "pbkdf2"
-
-template "/etc/grub.d/40_custom" do
-  source "etc/grub.d/40_custom.erb"
-  mode 0755
-  owner "root"
-  group "root"
-  variables({
-     :encrypted_password => PBKDF2.new(:password=>node[:grub_passwd], :salt=>"REPLACE_ME", :iterations=>10000).hex_string
-  })
-  notifies :run, 'execute[update-grub]', :immediately
-end
-
-execute 'update-grub' do
-  command 'update-grub'
-end
 
 ###
 # Redirect protections
@@ -112,15 +80,6 @@ end
 # Audit Strategy!
 # See https://github.com/18F/ubuntu/blob/master/hardening.md#audit-strategy
 ###
-
-# Booting
-cookbook_file "/etc/default/grub" do
-  source "etc/default/grub"
-  mode 0644
-  owner "root"
-  group "root"
-  notifies :run, 'execute[update-grub]', :immediately
-end
 
 # Time and Space
 directory "/etc/audit" do
