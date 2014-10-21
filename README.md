@@ -6,9 +6,7 @@ This project creates hardened, FISMA-compliant Ubuntu LTS AMIs that are suitable
 
 Prepared and maintained by **[18F](https://18f.gsa.gov)**, a technology team inside the US federal government.
 
-## How to use this
-
-This project:
+## What this does
 
 * Takes a **fresh Ubuntu 14.04 LTS AMI** (`ami-9eaa1cf6`), as published by Canonical:
 
