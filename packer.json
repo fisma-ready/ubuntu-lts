@@ -1,8 +1,8 @@
 {
   "variables": {
-	  "aws_access_key_id": "", 
-	  "aws_secret_key": "", 
-	  "s3_bucket": "", 
+	  "aws_access_key_id": "",
+	  "aws_secret_key": "",
+	  "s3_bucket": "",
 	  "grub_passwd": ""
   },
   "builders": [{
@@ -10,8 +10,8 @@
     "access_key": "{{user `aws_access_key_id`}}",
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "us-east-1",
-    "source_ami": "ami-a427efcc",
-    "instance_type": "t1.micro",
+    "source_ami": "ami-9eaa1cf6",
+    "instance_type": "m3.medium",
     "ssh_username": "ubuntu",
     "ami_name": "18F Baseline Ubuntu ({{timestamp}} - Packer)",
 	"ami_block_device_mappings": [
