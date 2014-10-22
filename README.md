@@ -39,3 +39,13 @@ export AWS_SECRET_ACCESS_KEY=[your AWS secret key]
 1. Run `ami.sh`.
 
 That's it! Take note of the AMI ID this spits out to your console after it's done.
+
+# Involvement of 18F
+
+The team at [18F](https://18f.gsa.gov) decided to start work where FedRAMP stops for open source components in a true infrastructure as a service environment - at the operating system layer. Secure baselines were available for Windows, Solaris, and Red Hat Enterprise Linux. But, there were no generally available &mdash; and certainly not public &mdash; baselines, for Ubuntu or the Debian version of Linux generally.
+
+18F is committed to [free and open source software](https://github.com/18F/open-source-policy/blob/master/policy.md) - our intention is that the software we write can be run _anywhere_, without the need to pay for licensing fees.
+
+## Caveat emptor
+
+Our hardened version of Ubuntu is still in *_active development_*. It is subject to change rapidly. Our intention is that no changes will be system breaking, and testing both in local virtual machines and the AWSis ongoing. We have also started to put common web workloads on servers running the hardened OS and no issues have yet arisen. Always use a testing environment before deploying a new OS configuration into production, and please report back with any [Issues](https://github.com/fisma-ready/ubuntu-lts/issues) or [Pull Requests](https://github.com/fisma-ready/ubuntu-lts/pulls).
