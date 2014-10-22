@@ -14,7 +14,7 @@
     "instance_type": "m3.medium",
     "ssh_username": "ubuntu",
     "ami_name": "FISMA Ready Baseline Ubuntu ({{timestamp}} - Packer)",
-    "ami_description": "A FISMA-compliance ready baseline Ubuntu image."
+    "ami_description": "A FISMA-ready baseline Ubuntu image."
   }],
   "provisioners": [{
 	    "type": "chef-solo",
