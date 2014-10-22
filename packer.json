@@ -13,7 +13,8 @@
     "source_ami": "ami-9eaa1cf6",
     "instance_type": "m3.medium",
     "ssh_username": "ubuntu",
-    "ami_name": "18F Baseline Ubuntu ({{timestamp}} - Packer)"
+    "ami_name": "FISMA Ready Baseline Ubuntu ({{timestamp}} - Packer)",
+    "ami_description": "A FISMA-compliance ready baseline Ubuntu image."
   }],
   "provisioners": [{
 	    "type": "chef-solo",
