@@ -1,10 +1,10 @@
-# Ubuntu LTS is FISMA-ready
+# Ubuntu LTS is FISMA Ready
 
-This project creates hardened, FISMA-compliant Ubuntu LTS AMIs that are suitable for use in the Amazon Web Services public cloud.
+This project creates hardened, FISMA Ready Ubuntu LTS Amazon Machine Instances (AMIs) that are suitable for use in Amazon Web Services (AWS). To be FISMA Ready, the AMI must be instantitated in either the US-East or US-West regions of AWS, or the AWS GovCloud, in order to properly inherit the AWS controls assessed by the [FedRAMP program](http://cloud.cio.gov/fedramp). We recommend additional customer level controls on top of the FedRAMP authorization for the AWS Console, and will be releasing those soon.
 
-(It may expand soon to support other deployment environments and image types.)
+We are also working to expand support for other deployment environments and image types.
 
-Prepared and maintained by **[18F](https://18f.gsa.gov)**, a technology team inside the US federal government.
+Prepared and maintained by **[18F](https://18f.gsa.gov)**, a Federal digital services team.
 
 ## What this does
 
@@ -14,7 +14,7 @@ Prepared and maintained by **[18F](https://18f.gsa.gov)**, a technology team ins
 
 * Launches an `m3.medium` instance from this AMI in your AWS account's Classic region (not a VPC).
 
-* Uses the included Chef cookbooks and templates to connect to the instance and configure it to match the Center for Internet Security's baseline security controls.
+* Uses the included Chef cookbooks and templates to connect to the instance and configures to controls recommended by the [Center for Internet Security](http://www.cisecurity.org/).
 
 * Creates a new AMI from the configured instance, and prints out the AMI ID.
 
