@@ -185,3 +185,9 @@ cookbook_file "/etc/update-motd.d/00-header" do
   group "root"
 end
 
+###
+# Install NTP for better time management
+###
+apt_package "ntp" do
+  action :upgrade # see actions section below
+end
