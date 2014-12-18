@@ -4,26 +4,7 @@
 
 
 include_recipe 'apt'
-include_recipe 'nginx'
 include_recipe 'git'
-
-
-# Set up nginx default config
-directory '/var/www/nginx-default' do
-  owner 'www-data'
-  group 'www-data'
-  mode '0755'
-  recursive true
-  action :create
-end
-
-file '/var/www/nginx-default/index.html' do
-  owner 'www-data'
-  group 'www-data'
-  mode '0755'
-  content 'Hello World from the AWS Pop-up Loft!'
-  action :create
-end
 
 ###
 # /etc/modprobe.d Safe Defaults
@@ -49,7 +30,7 @@ icmp_settings = [
   "net.ipv4.conf.default.accept_redirects=0",
   "net.ipv6.conf.default.accept_redirects=0",
   "net.ipv4.conf.all.secure_redirects=0",
-  "net.ipv4.conf.default.secure_redirects=0",  
+  "net.ipv4.conf.default.secure_redirects=0",
   "net.ipv4.conf.all.send_redirects=0",
   "net.ipv4.conf.default.send_redirects=0",
   "net.ipv4.conf.all.accept_source_route=0",
