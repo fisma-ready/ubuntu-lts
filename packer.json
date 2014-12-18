@@ -14,7 +14,19 @@
     "instance_type": "m3.medium",
     "ssh_username": "ubuntu",
     "ami_name": "FISMA Ready Baseline Ubuntu ({{timestamp}} - Packer)",
-    "ami_description": "A FISMA-ready baseline Ubuntu image."
+    "ami_description": "A FISMA-ready baseline Ubuntu image.",
+    "ami_block_device_mappings" : [{
+      "device_name": "/dev/sda1",
+      "volume_type" : "gp2",
+      "volume_size": 30,
+      "delete_on_termination": true
+    },
+    {
+      "device_name": "/dev/sdk",
+      "volume_size": 40,
+      "volume_type" : "gp2",
+      "delete_on_termination": true
+    }]
   }],
   "provisioners": [{
 	    "type": "chef-solo",
