@@ -29,11 +29,11 @@ $ brew doctor
 $ brew tap homebrew/binary
 $ brew install packer
 ```
-At press time, we used Packer 0.7.1.
+At press time, we used Packer 0.7.5
 
 ```bash
-$ packer -v
-Packer v0.7.1
+$ packer version
+Packer v0.7.5
 ```
 
 * Set two environmental variables.
