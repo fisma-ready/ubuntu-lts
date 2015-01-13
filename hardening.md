@@ -22,18 +22,19 @@ These are controls to implement in a production environment. They may not be cur
 
 First and foremost we'll need a VM to work with.  To do this, we'll start by getting Vagrant installed then use it to abstract away all the complications of spinning up a new VM.
 
-	vagrant plugin install vagrant-vbguest
-	vagrant up
+### Vagrant:
 
-During the upgrade, you'll get a note that the XFree86 Window system failed to install. You won't need it.
+[Vagrant](https://www.vagrantup.com/) is a quick, easy way to configure and launch consistent virtual environments across a variety of platforms for test and development. As usual homebrew makes using Vagrant simple for Mac OSX users. 
 
-## Spin up your AMI
+	brew install vagrant
 
-If you are doing this work via AWS, start with an Ubuntu 14.04 AMI that uses paravirtualization. Tests have not yet been completed using hardware-assisted virtualization (HVM) based AMIs, but we do not at this point anticipate any issues. Interested in testing? Assign an issue to yourself.
+With vagrant and installed we can start preparing our environment.
 
-## Get up to date
+	mkdir fisma-ready-ubuntu
+	cd fisma-ready-ubuntu
+	vagrant init ubuntu/trusty64
 
-Before we do anything, let's make sure we're all patched up.
+Before we can bring a virtual machine online we need one more thing, a [provider](https://docs.vagrantup.com/v2/providers/) for Vagrant to work with. This guide covers both [virtualbox](http://docs.vagrantup.com/v2/virtualbox) for running locally and [aws](https://github.com/mitchellh/vagrant-aws) to launch your machine on Amazon EC2.
 
 	apt-get update
 	apt-get upgrade
