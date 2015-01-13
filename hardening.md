@@ -89,8 +89,18 @@ Export your AWS credentials as environment variables.
 	export AWS_ACCESS_KEY=YOURAWSACCESSKEY
 	export AWS_SECRET_KEY=YOURAWSSECRETKEY
 
+##### Additional Configuration - AWS:
+	 
+Add a second disk and finish configuring your box for use with the virtualbox provider by replacing the contents of the newly created [Vagrantfile](https://docs.vagrantup.com/v2/vagrantfile/)  with the following.
 
-	Disk /dev/sdb
+There are several placeholder parameters that will need updating.
+
+- *your-keypair-name* - The name of the [AWS keypair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) to use with the instance.
+
+- */path/to/your-keypair-name.pem* - The path and filename of your [AWS private key](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html).
+
+- *your-security-group-which-allows-ssh* - The name of an EC2 [security group which allows SSH](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html#security-group-rules).
+
 
 Jump into fdisk to start your partitioning!
 
