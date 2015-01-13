@@ -56,7 +56,21 @@ Add a second disk and finish configuring your box for use with the virtualbox pr
 
 **./Vagrantfile**
 
-You first need to create a physical disk which will be labeled "sdb" - see the *b*? This is the second physical disk with "sda" being the first one.
+	Vagrant.configure(2) do |config|
+      config.vm.box = "ubuntu/trusty64"
+      config.vm.provider "virtualbox" do | vm |
+        file_to_disk = './disks/xvdk.vdi'
+        vm.customize ['createhd', 
+                      '--filename', file_to_disk, 
+                      '--size', 40 * 1024]
+        vm.customize ['storageattach', :id, 
+                      '--storagectl', 'SATAController', 
+                      '--port', 1, 
+                      '--device', 0, 
+                      '--type', 'hdd', 
+                      '--medium', file_to_disk]
+      end
+    end
 
 This reconfigures the [vagrant box](https://docs.vagrantup.com/v2/boxes.html) we just [initialized](https://docs.vagrantup.com/v2/cli/init.html) to feature a second, 40GB disk which we'll start carving up in just a moment. Don't worry, this new disk won't actually take up 40GB of space. It will only consume as much space as the data data we place on it through the course of this exercise which isn't much.
 
