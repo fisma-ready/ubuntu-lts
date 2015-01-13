@@ -130,15 +130,18 @@ If all goes well you'll find yourself at the prompt of a fresh Ubuntu 14.04.1 LT
 
 	vagrant@vagrant-ubuntu-trusty-64:~$
 
+### Preparing the Disk:
 
-Hit _m_ for a list of commands. We'll go with _n_ to start making a new partition. If you can live with 4 partitions of this disk, primary partitions are the way to go.
+Since we created and attached a second disk as part of the Vagrantfile above, there's very little to do here. Just confirm the disk is present.
 
-	Command (m for help): n
-	Partition type:
-	   p   primary (0 primary, 0 extended, 4 free)
-	   e   extended
-	Select (default p): p
-	Partition number (1-4, default 1): 1
+	sgdisk -p /dev/sdb
+	Creating new GPT entries.
+	...	
+	Total free space is 83886013 sectors (40.0 GiB)
+	
+	Number  Start (sector)    End (sector)  Size       Code  Name
+	vagrant@vagrant-ubuntu-trusty-64:~$ 
+
 
 On what cylinder will the partition start? Rarely a good idea to set something non-default. Just hit enter to move on.
 
