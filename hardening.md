@@ -4,17 +4,17 @@ This hardening guide, and the operating system (OS) configuration it produces, i
 
 There are many recommended controls that are already in place with given a fresh install of either Ubuntu 12.04 LTS or Ubuntu 14.04 LTS. These controls are fully itemized at TBD and are covered by our an open source compliance testing suite we are currently working on.
 
-Controls were implemented on both an Ubuntu 12.04 box downloaded from the [VagrantCloud](https://vagrantcloud.com/hashicorp/precise64/version/2/provider/virtualbox.box) and the default 640-bit Ubuntu 14.04 Amazon Machine Image (AMI).
+Controls were implemented on both an Ubuntu 12.04 box downloaded from the [VagrantCloud](https://vagrantcloud.com/hashicorp/precise64/version/2/provider/virtualbox.box) and the default 64-bit Ubuntu 14.04 Amazon Machine Image (AMI).
 
 There might be additional controls necessary for your system at the OS level, above and beyond the following. Please consult with your cybersecurity and DevOps teams.
 
-We strongly encourage the community to help us improve this baseline given an ever-changing risk environment. We believe there is rarely any security in obscurity and that there will always be a greater level of expertise on the outside of team than inside. By doing this work in the open, we will more quickly and effectively identifiy flaws or potential improvements.
+We strongly encourage the community to help us improve this baseline given an ever-changing risk environment. We believe there is rarely any security in obscurity and that there will always be a greater level of expertise on the outside of team than inside. By doing this work in the open, we will more quickly and effectively identify flaws or potential improvements.
 
 ## Before you start
 
-We've edited this guide to address both the Vagrant and Amazon Web Services (AWS) use cases. As we improve the baseline, we will likely seperate the guide based on the deployment environment. For the time being, differences between Vagrant and AWS are noted in-line.
+We've edited this guide to address both the Vagrant and Amazon Web Services (AWS) use cases. As we improve the baseline, we will likely separate the guide based on the deployment environment. For the time being, differences between Vagrant and AWS are noted in-line.
 
-The guide is currently written presuming intermediate familarity with Linux, the command line, Vagrant/AWS, and system administration in general. References are provided were applicable to provide additional background.
+The guide is currently written presuming intermediate familiarity with Linux, the command line, Vagrant/AWS, and system administration in general. References are provided where applicable to provide additional background.
 
 These are controls to implement in a production environment. They may not be currently appropriate for a development environment that is in constant change. Some potential workarounds are discussed at the end of the guide. [TBD]
 
