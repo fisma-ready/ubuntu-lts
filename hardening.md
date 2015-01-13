@@ -148,13 +148,13 @@ In the AWS device namespace, it becomes problematic if you occupy the sdb - sde 
 
 The rest of the partition guidance in this section is written from the perspective of the virtualbox provider using device `/dev/sdb`.  If you're running in AWS simply substitute `/dev/xvdk` for `/dev/sdb`.
 
-Determining the last sector also determines how big the partition is. We have 30GB to play with, let's make each 6GB.
+## Getting Up To Date:
 
-	Last sector, +sectors or +size{K,M,G} (2048-52428799, default 52428799): +5G
+Before we do anything, let's make sure we're all patched up.
 
-Hit _p_ to see what happened.
+	sudo apt-get update && sudo apt-get upgrade -y
 
-	Command (m for help): p
+Grab a snack, this will take a bit.
 
 You should now see _/dev/sdb1_ listed!
 
