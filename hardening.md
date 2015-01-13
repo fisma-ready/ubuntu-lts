@@ -10,7 +10,7 @@ There might be additional controls necessary for your system at the OS level, ab
 
 We strongly encourage the community to help us improve this baseline given an ever-changing risk environment. We believe there is rarely any security in obscurity and that there will always be a greater level of expertise on the outside of team than inside. By doing this work in the open, we will more quickly and effectively identify flaws or potential improvements.
 
-## Before you start
+## Before You Start
 
 We've edited this guide to address both the Vagrant and Amazon Web Services (AWS) use cases. As we improve the baseline, we will likely separate the guide based on the deployment environment. For the time being, differences between Vagrant and AWS are noted in-line.
 
@@ -18,7 +18,7 @@ The guide is currently written presuming intermediate familiarity with Linux, th
 
 These are controls to implement in a production environment. They may not be currently appropriate for a development environment that is in constant change. Some potential workarounds are discussed at the end of the guide. [TBD]
 
-## Vagrant and Virtualbox sitting in a tree
+## Getting Started
 
 If you are doing this work via Vagrant, before you do your first _vagrant up_, you might have a version mistmatch between the Guest Additions installed on the box vs your install of VirtualBox. Let's fix that. Go to the same folder as the Vagrantfile you're about to use.
 
