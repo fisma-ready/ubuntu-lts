@@ -93,6 +93,24 @@ Export your AWS credentials as environment variables.
 	 
 Add a second disk and finish configuring your box for use with the virtualbox provider by replacing the contents of the newly created [Vagrantfile](https://docs.vagrantup.com/v2/vagrantfile/)  with the following.
 
+**./Vagrantfile**
+
+	Vagrant.configure("2") do |config|
+	  config.vm.box = "dummy"
+	
+	  config.vm.provider :aws do |aws, override|
+	    aws.keypair_name = "your-keypair-name"
+	    aws.ami = "ami-9eaa1cf6"
+	    override.ssh.username = "ubuntu"
+	    override.ssh.private_key_path = "/path/to/your-keypair-name.pem"
+	    aws.tags = {
+	      'Name' => 'fisma-ready/ubuntu-lts'
+	    }
+	    aws.block_device_mapping = [{ 'DeviceName' => '/dev/xvdk', 'Ebs.VolumeSize' => 40 }]
+	    aws.security_groups = ['your-security-group-which-allows-ssh']
+	  end
+	end
+
 There are several placeholder parameters that will need updating.
 
 - *your-keypair-name* - The name of the [AWS keypair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) to use with the instance.
