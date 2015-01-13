@@ -50,15 +50,15 @@ Then we'll use cask to set up virtualbox.
     
 Users of other operating systems can find downloads and instructions on for the installation of vagrant and virtualbox at [vagrantup](https://www.vagrantup.com/downloads.html) and [virtualbox](https://www.virtualbox.org/wiki/Downloads) respectively.
 
-- [Partitioning with fdisk](http://www.liquidweb.com/kb/disk-partitioning-with-fdisk-2/)
+##### Additional Configuration - VirtualBox:
 
-When you create your fresh new Ubuntu box via Vagrant or AWS, you only have "sda" (or "xvda") - a physical volume for booting the OS. In Vagrant, there may be a volume dedicated for itself. Don't touch those or your may break your box.
+Add a second disk and finish configuring your box for use with the virtualbox provider by replacing the contents of the newly created [Vagrantfile](https://docs.vagrantup.com/v2/vagrantfile/)  with the following:
 
-### Disk devices for Vagrant
+**./Vagrantfile**
 
 You first need to create a physical disk which will be labeled "sdb" - see the *b*? This is the second physical disk with "sda" being the first one.
 
-In order to create sdb, you need to add it through your VM manager. If you use VirtualBox, [here's a walkthrough.](https://www.youtube.com/watch?v=vsljCzZ70bE)
+This reconfigures the [vagrant box](https://docs.vagrantup.com/v2/boxes.html) we just [initialized](https://docs.vagrantup.com/v2/cli/init.html) to feature a second, 40GB disk which we'll start carving up in just a moment. Don't worry, this new disk won't actually take up 40GB of space. It will only consume as much space as the data data we place on it through the course of this exercise which isn't much.
 
 ### Disk devices for AWS
 
