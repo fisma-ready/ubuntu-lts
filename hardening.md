@@ -36,17 +36,19 @@ With vagrant and installed we can start preparing our environment.
 
 Before we can bring a virtual machine online we need one more thing, a [provider](https://docs.vagrantup.com/v2/providers/) for Vagrant to work with. This guide covers both [virtualbox](http://docs.vagrantup.com/v2/virtualbox) for running locally and [aws](https://github.com/mitchellh/vagrant-aws) to launch your machine on Amazon EC2.
 
-	apt-get update
-	apt-get upgrade
-	Y
+#### Virtualbox Provider:
 
-Grab a snack, this will take a bit.
+Homebrew comes in handy once again with a little help from the homebrew extension [cask](http://caskroom.io/).
 
-## Partitions management
+First, we'll add then cask extension.
 
-References:
+    brew install caskroom/cask/brew-cask
+    
+Then we'll use cask to set up virtualbox.
 
-- [General info on partitions](http://www.howtoforge.com/linux_lvm)
+    brew cask install virtualbox
+    
+Users of other operating systems can find downloads and instructions on for the installation of vagrant and virtualbox at [vagrantup](https://www.vagrantup.com/downloads.html) and [virtualbox](https://www.virtualbox.org/wiki/Downloads) respectively.
 
 - [Partitioning with fdisk](http://www.liquidweb.com/kb/disk-partitioning-with-fdisk-2/)
 
