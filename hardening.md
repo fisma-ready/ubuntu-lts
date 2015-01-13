@@ -74,17 +74,21 @@ Add a second disk and finish configuring your box for use with the virtualbox pr
 
 This reconfigures the [vagrant box](https://docs.vagrantup.com/v2/boxes.html) we just [initialized](https://docs.vagrantup.com/v2/cli/init.html) to feature a second, 40GB disk which we'll start carving up in just a moment. Don't worry, this new disk won't actually take up 40GB of space. It will only consume as much space as the data data we place on it through the course of this exercise which isn't much.
 
-### Disk devices for AWS
+#### AWS Provider:
 
-In the AWS device namespace, it becomes problematic if you occupy the sdb - sde device namespace. Within your instance, you may see these mapped to xvdb - xvde respectively. If you select sdf - sdl when creating your instance, these problems can be avoided. The rest of the partition guidance in this section is written from the perspective of Vagrant. If you're in AWS, when creating an additional EBS device, select sdf - sdl when launching an additional EBS device with your EC2 instance, and then anticipate seeing xvdf - xvdl in the below commands instead of sdb.
+Add the aws provider plugin to Vagrant.
 
-### Partition the disk devices
+	vagrant plugin install vagrant-aws
+	
+Add the blank 'dummy' box which we'll use as a base for launching into AWS.
 
-You can now can add partitions to sdb. Check to see if it's there.
+	vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
 
-	fdisk -l
+Export your AWS credentials as environment variables.
 
-In this listing, you should now see:
+	export AWS_ACCESS_KEY=YOURAWSACCESSKEY
+	export AWS_SECRET_KEY=YOURAWSSECRETKEY
+
 
 	Disk /dev/sdb
 
