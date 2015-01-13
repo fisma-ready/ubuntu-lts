@@ -168,11 +168,38 @@ Pay special attention when partitioning. Depending on your provider `/dev/xvda` 
 
 Users of the AWS provider might notice one or more additional devices at `/dev/xvdb`. This is your [instance store](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html) which is beyond the scope of this doc and can be safely ignored.
 
-	   Device Boot      Start         End      Blocks   Id  System
-	/dev/sdb1            2048    10487807     5242880   83  Linux
-	/dev/sdb2        10487808    20973567     5242880   83  Linux
-	/dev/sdb3        20973568    31459327     5242880   83  Linux
-	/dev/sdb4        31459328    41945087     5242880   83  Linux
+### Partitioning:
+
+You can now can add partitions to the second disk. Check to see if it's there.
+
+	sudo sgdisk -p /dev/sdb
+
+In this listing, you should now see:
+
+	Disk /dev/xvdk: 83886080 sectors, 40.0 GiB
+	...
+	Total free space is 83886013 sectors (40.0 GiB)
+
+	Number  Start (sector)    End (sector)  Size       Code  Name
+
+Since we have 40GB to work with we'll make each partition 10GB. Pay special attention to the final partition, we're not specifying a set size, rather it will use all remaining space on the disk.
+
+	sudo sgdisk -n 1:0:+10G /dev/sdb
+	sudo sgdisk -n 2:0:+10G /dev/sdb
+	sudo sgdisk -n 3:0:+10G /dev/sdb
+	sudo sgdisk -n 4:0:+ /dev/sdb
+
+Lets have a look at our newly created partitions.
+
+	Disk /dev/sdb: 83886080 sectors, 40.0 GiB
+	...
+	Total free space is 2014 sectors (1007.0 KiB)
+	
+	Number  Start (sector)    End (sector)  Size       Code  Name
+	   1            2048        20973567   10.0 GiB    8300  
+	   2        20973568        41945087   10.0 GiB    8300  
+	   3        41945088        62916607   10.0 GiB    8300  
+	   4        62916608        83886046   10.0 GiB    8300  
 
 Looks great! But all that's happened is that you've created device listing within the OS. Ubuntu still doesn't think these are physical volumes ready for use.
 
