@@ -119,10 +119,17 @@ There are several placeholder parameters that will need updating.
 
 - *your-security-group-which-allows-ssh* - The name of an EC2 [security group which allows SSH](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html#security-group-rules).
 
+#### Starting Up:
 
-Jump into fdisk to start your partitioning!
+Lets go ahead and start our machine with [vagrant up](https://docs.vagrantup.com/v2/cli/up.html) and connect to it via SSH with [vagrant ssh](https://docs.vagrantup.com/v2/cli/ssh.html).
 
-	fdisk /dev/sdb
+	vagrant up
+	vagrant ssh
+	
+If all goes well you'll find yourself at the prompt of a fresh Ubuntu 14.04.1 LTS (Trusty) VM.
+
+	vagrant@vagrant-ubuntu-trusty-64:~$
+
 
 Hit _m_ for a list of commands. We'll go with _n_ to start making a new partition. If you can live with 4 partitions of this disk, primary partitions are the way to go.
 
