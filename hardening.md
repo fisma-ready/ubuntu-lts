@@ -20,7 +20,7 @@ These are controls to implement in a production environment. They may not be cur
 
 ## Getting Started
 
-If you are doing this work via Vagrant, before you do your first _vagrant up_, you might have a version mistmatch between the Guest Additions installed on the box vs your install of VirtualBox. Let's fix that. Go to the same folder as the Vagrantfile you're about to use.
+First and foremost we'll need a VM to work with.  To do this, we'll start by getting Vagrant installed then use it to abstract away all the complications of spinning up a new VM.
 
 	vagrant plugin install vagrant-vbguest
 	vagrant up
