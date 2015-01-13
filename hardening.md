@@ -142,11 +142,11 @@ Since we created and attached a second disk as part of the Vagrantfile above, th
 	Number  Start (sector)    End (sector)  Size       Code  Name
 	vagrant@vagrant-ubuntu-trusty-64:~$ 
 
+#### Device Names:
 
-On what cylinder will the partition start? Rarely a good idea to set something non-default. Just hit enter to move on.
+In the AWS device namespace, it becomes problematic if you occupy the sdb - sde device names. Within your instance, you may see these mapped to xvdb - xvde respectively. In the AWS Provider Vagrantfile above we've mapped our second disk to /dev/xvdk to avoid any potential conflicts. 
 
-	First sector (2048-52428799, default 2048):
-	Last sector, +sectors or +size{K,M,G} (2048-52428799, default 52428799):
+The rest of the partition guidance in this section is written from the perspective of the virtualbox provider using device `/dev/sdb`.  If you're running in AWS simply substitute `/dev/xvdk` for `/dev/sdb`.
 
 Determining the last sector also determines how big the partition is. We have 30GB to play with, let's make each 6GB.
 
