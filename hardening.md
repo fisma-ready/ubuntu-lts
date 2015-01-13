@@ -156,17 +156,17 @@ Before we do anything, let's make sure we're all patched up.
 
 Grab a snack, this will take a bit.
 
-You should now see _/dev/sdb1_ listed!
+## Partitions Management:
 
-Rinse and repeat until you have _sdb1_ -> _sdb4_ in the dialog listed by the _p_ command. *Warning:* you have to write this config to disk! Hit _w_.
+References:
 
-	Command (m for help): w
+- [General info on partitions](http://www.howtoforge.com/linux_lvm)
 
-This will also exit _fdisk_. Let's take a last look to confirm our work:
+- [Partitioning with (s)gdisk](http://www.rodsbooks.com/gdisk/sgdisk-walkthrough.html)
 
-	fdisk -l
+Pay special attention when partitioning. Depending on your provider `/dev/xvda` or `/dev/sda` is the home of your system disk. Re-partitioning these devices will most assuredly break your box!
 
-	(...)
+Users of the AWS provider might notice one or more additional devices at `/dev/xvdb`. This is your [instance store](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html) which is beyond the scope of this doc and can be safely ignored.
 
 	   Device Boot      Start         End      Blocks   Id  System
 	/dev/sdb1            2048    10487807     5242880   83  Linux
