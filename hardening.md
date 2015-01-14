@@ -203,21 +203,25 @@ Lets have a look at our newly created partitions.
 
 Looks great! But all that's happened is that you've created device listing within the OS. Ubuntu still doesn't think these are physical volumes ready for use.
 
-### Using LVM to finish the job.
+### Using LVM:
 
 Reference: [A Beginner's Guide To LVM](http://www.howtoforge.com/linux_lvm)
 
+The first thing we'll need to get started with LVM is the `lvm2` package.
+
+	sudo apt-get install -y lvm2
+
 The Logical Volume Management (LVM) app can take these devices and make partitions. The first step is to create physical volumes (PV).
 
-	pvcreate /dev/xvdb1 /dev/xvdb2 /dev/xvdb3 /dev/xvdb4
+	sudo pvcreate /dev/sdb1 /dev/sdb2 /dev/sdb3 /dev/sdb4
 
 Check your work.
 
-	pvdisplay
+	sudo pvdisplay
 
 Now we can create a volume group (VG) to contain our logical volumes (LV). We need to give our VG a name - securefolders.
 
-	vgcreate securefolders /dev/xvdb1 /dev/xvdb2 /dev/xvdb3 /dev/xvdb4
+	sudo vgcreate securefolders /dev/sdb1 /dev/sdb2 /dev/sdb3 /dev/sdb4
 
 If this is confusing, check out this diagram from [Wikipedia](http://en.wikipedia.org/wiki/File:LVM1.svg) and this [StackExchange article](http://unix.stackexchange.com/questions/87300/differences-between-volume-partition-and-drive)
 
@@ -225,42 +229,41 @@ The order of abstraction is PV > VG > LV.
 
 Make a logical volume - this is the last abstraction, and where we will actually mount our folders. I'll begin with a LV for /tmp, which I'll call _temp_.
 
-	lvcreate --name temp --size 5G securefolders
+	sudo lvcreate --name temp --size 10G securefolders
 
 If you go back and look at _vgdisplay_ at this point, you should see that your _Free PE_ has now dropped.
 
 Abstractions are over, so let's get an actual filesystem going! At the moment, _ext4_ is the latest and greatest, so we'll use that.
 
-	mkfs.ext4 /dev/securefolders/temp
+	sudo mkfs.ext4 /dev/securefolders/temp
 
 We now have some [safety checks](https://help.ubuntu.com/community/Partitioning/Home/Moving) before we start mounting. A key configuration file _fstab_ will be altered, so let's make a backup.
 
-	cp /etc/fstab /etc/fstab.$(date +%Y-%m-%d)
+	sudo cp /etc/fstab /etc/fstab.$(date +%Y-%m-%d)
 
-To be extra careful, let's make a backup of all the files we're going to re-mount. I've heard rsync can preserve permissions better than _cp_. Go to the top level and make some backupfolders first.
+To be extra careful, let's make a backup of all the files we're going to re-mount. I've heard rsync can preserve permissions better than _cp_. Go to the top level and make some backup folders first.
 
-	mkdir homeBackup
-	mkdir varBackup
-	rsync -aXS /home/* /homeBackup
-	rsync -aXS /var/* /varBackup
+	sudo mkdir homeBackup
+	sudo mkdir varBackup
+	sudo rsync -aXS /home/* /homeBackup
+	sudo rsync -aXS /var/* /varBackup
 
 Ok, we _finally_ have a thing we can mount to! Let's tackle /tmp first.
 
-	 mount /dev/securefolders/temp /tmp
-	 df -H
+	sudo mount /dev/securefolders/temp /tmp
+	df -H
 
 	Filesystem                      Size  Used Avail Use% Mounted on
-	/dev/mapper/precise64-root       79G  2.2G   73G   3% /
-	udev                            174M  4.0K  174M   1% /dev
-	tmpfs                            74M  308K   73M   1% /run
-	none                            5.0M     0  5.0M   0% /run/lock
-	none                            183M     0  183M   0% /run/shm
-	/dev/sda1                       228M   25M  192M  12% /boot
-	/vagrant                        233G  169G   65G  73% /vagrant
-	/dev/mapper/securefolders-temp   10G  280M  9.2G   3% /tmp
+	/dev/sda1                        43G  1.4G   40G   4% /
+	none                            4.1k     0  4.1k   0% /sys/fs/cgroup
+	udev                            252M   13k  252M   1% /dev
+	tmpfs                            52M  373k   52M   1% /run
+	none                            5.3M     0  5.3M   0% /run/lock
+	none                            257M     0  257M   0% /run/shm
+	none                            105M     0  105M   0% /run/user
+	vagrant                         500G   45G  455G   9% /vagrant
+	/dev/mapper/securefolders-temp   11G   24M  9.9G   1% /tmp
 
-
-### Secure filesystem configuration
 
 Let's put some security options on that folder.
 
