@@ -264,45 +264,49 @@ Ok, we _finally_ have a thing we can mount to! Let's tackle /tmp first.
 	vagrant                         500G   45G  455G   9% /vagrant
 	/dev/mapper/securefolders-temp   11G   24M  9.9G   1% /tmp
 
+### Securing the Filesystem:
 
 Let's put some security options on that folder.
 
-	mount -o remount,nodev,nosuid,noexec /tmp
+	sudo mount -o remount,nodev,nosuid,noexec /tmp
 
 But what happens if we reboot? We don't want to deal with creating a shell script for this. This should be in the baseline. There's a file called _fstab_ that will cover it for us.
 
-	vi /etc/fstab
+	sudo vi /etc/fstab
 
-Go to the end and add the following.
+Go to the end and add the following lines.
 
 	/dev/securefolders/temp   /tmp   ext4   defaults,rw,nodev,nosuid,noexec   0   2
+	/dev/securefolders/variables   /var   ext4   defaults,rw,nodev,nosuid,nobootwait   0   0
+	/dev/securefolders/audits   /var/log/audit   ext4   defaults,rw,nodev,nosuid,noexec,nobootwait   0   0
+	/dev/securefolders/house   /home   ext4   defaults,rw,nodev,nosuid,noexec,nobootwait   0   0
 
 Nice - after a reboot, everything will mount correctly with your new security options.
 
 With all the concepts in the clear let's bundle things up for the other assets that will be in _securefolders_ VG.
 
-	lvcreate --name variables --size 5G securefolders
-	lvcreate --name audits --size 5G securefolders
-	lvcreate --name house --size 5G securefolders
+	sudo lvcreate --name variables --size 10G securefolders
+	sudo lvcreate --name audits --size 10G securefolders
+	sudo lvcreate --name house -l 100%FREE securefolders
 
-	mkfs.ext4 /dev/securefolders/variables
-	mkfs.ext4 /dev/securefolders/audits
-	mkfs.ext4 /dev/securefolders/house
+	sudo mkfs.ext4 /dev/securefolders/variables
+	sudo mkfs.ext4 /dev/securefolders/audits
+	sudo mkfs.ext4 /dev/securefolders/house
 
 Let's break things up here. First, get _/var_ mounted.
 
-	mount /dev/securefolders/variables /var
+	sudo mount /dev/securefolders/variables /var
 
 Pausing here, we want to bind mount _/var/tmp_ to _/tmp_. Beyond inheriting previous security modifications of _/tmp_, this keeps things tidy.
 
 Since we still have the new OS smell, _/var/tmp_ _may_ not exist yet. Same with _/var/log/audit_. We'll make them both and do necessary binding.
 
-	cd var
-	mkdir /var/tmp
-	mount --bind /tmp /var/tmp
-	mkdir log
+	cd /var
+	sudo mkdir /var/tmp
+	sudo mount --bind /tmp /var/tmp
+	sudo mkdir log
 	cd log
-	mkdir audit
+	sudo mkdir audit
 
 Check your binding.
 
@@ -316,27 +320,37 @@ We'll add the following:
 
 Finish up the mounting.
 
-	mount /dev/securefolders/audits /var/log/audit
-	mount /dev/securefolders/house /home
+	sudo mount /dev/securefolders/audits /var/log/audit
+	sudo mount /dev/securefolders/house /home
 
 Look under the hood.
 
 	df -H
 
-	(...)
-	/dev/mapper/securefolders-temp       5.4G  214M  4.9G   5% /tmp
-	/dev/mapper/securefolders-house      5.4G  214M  4.9G   5% /home
-	/dev/mapper/securefolders-variables  5.4G  682M  4.5G  14% /var
-	/dev/mapper/securefolders-audits     5.4G  214M  4.9G   5% /var/log/audit
+	...
+	/dev/mapper/securefolders-temp        11G   24M  9.9G   1% /tmp
+	/dev/mapper/securefolders-variables   11G   24M  9.9G   1% /var
+	/dev/mapper/securefolders-audits      11G   24M  9.9G   1% /var/log/audit
+	/dev/mapper/securefolders-house       11G   24M  9.9G   1% /home
 
-One more secure modification in this area - see _/run/shm_ above? That powers part of the temporary filesystem. Let's lock it down.
+One more secure modification in this area - see _/run/shm_ above? This is shared memory, a likely vector for certain attacks. Let's lock it down.
 
-	mount -o remount,noexec,nosuid,nodev /run/shm
+	sudo mount -o remount,noexec,nosuid,nodev /run/shm
 
 One more edit to _/etc/fstab_ to bake it in. Add:
 
 	none   /run/shm   tmpfs   defaults,nodev,noexec,nosuid   0   0
 
+Now we'll restore the previously backed up contents of /var and /home and clean up afterwards.
+
+	sudo rsync -aXS /homeBackup/* /home
+	sudo rsync -aXS /varBackup/* /var
+
+Clean up.
+
+	sudo rm -rf /homeBackup
+	sudo rm -rf /varBackup
+	
 ### Reduce attack surface
 
 References: _**Need to find some**_
