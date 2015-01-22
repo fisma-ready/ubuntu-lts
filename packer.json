@@ -1,63 +1,74 @@
 {
-  "variables": {
-    "aws_access_key_id": "",
-    "aws_secret_key": "",
-    "s3_bucket": "",
-    "grub_passwd": ""
-  },
   "builders": [
     {
-      "type": "amazon-ebs",
       "access_key": "{{user `aws_access_key_id`}}",
-      "secret_key": "{{user `aws_secret_key`}}",
-      "region": "us-east-1",
-      "source_ami": "ami-9eaa1cf6",
-      "instance_type": "m3.medium",
-      "ssh_username": "ubuntu",
-      "ami_name": "FISMA Ready Baseline Ubuntu ({{timestamp}} - Packer)",
-      "ami_description": "A FISMA-ready baseline Ubuntu image. Based on Canoncical Ubuntu Trusty 14.04 LTS (ami-9eaa1cf6). For more info: https://github.com/fisma-ready/ubuntu-lts",
       "ami_block_device_mappings": [
         {
+          "delete_on_termination": true,
           "device_name": "/dev/sda1",
-          "volume_type": "gp2",
           "volume_size": 30,
-          "delete_on_termination": true
+          "volume_type": "gp2"
         },
         {
+          "delete_on_termination": true,
           "device_name": "/dev/sdk",
           "volume_size": 40,
-          "volume_type": "gp2",
-          "delete_on_termination": true
+          "volume_type": "gp2"
         }
-        ],
+      ],
+      "ami_description": "A FISMA-ready baseline Ubuntu image. Based on Canoncical Ubuntu Trusty 14.04 LTS (ami-9eaa1cf6). For more info: https://github.com/fisma-ready/ubuntu-lts",
+      "ami_name": "FISMA Ready Baseline Ubuntu ({{timestamp}} - Packer)",
+      "instance_type": "m3.medium",
       "launch_block_device_mappings": [
         {
+          "delete_on_termination": true,
           "device_name": "/dev/sda1",
-          "volume_type": "gp2",
           "volume_size": 30,
-          "delete_on_termination": true
+          "volume_type": "gp2"
         },
         {
+          "delete_on_termination": true,
           "device_name": "/dev/sdk",
           "volume_size": 40,
-          "volume_type": "gp2",
-          "delete_on_termination": true
+          "volume_type": "gp2"
         }
-      ]
+      ],
+      "region": "us-east-1",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "source_ami": "ami-9eaa1cf6",
+      "ssh_username": "ubuntu",
+      "type": "amazon-ebs"
     }
   ],
+  "post-processors": null,
   "provisioners": [
     {
-      "type": "chef-solo",
       "cookbook_paths": [
         "../vendor/cookbooks"
       ],
+      "json": {
+        "grub_passwd": "hello"
+      },
       "run_list": [
         "packer::default"
       ],
-      "json": {
-        "grub_passwd": "hello"
-      }
+      "type": "chef-solo"
+    },
+    {
+      "destination": "~/",
+      "source": "tests",
+      "type": "file"
+    },
+    {
+      "script": "scripts/serverspec.sh",
+      "type": "shell"
     }
-  ]
+  ],
+  "variables": {
+    "aws_access_key_id": "",
+    "aws_secret_key": "",
+    "grub_passwd": "",
+    "s3_bucket": ""
+  }
 }
+
