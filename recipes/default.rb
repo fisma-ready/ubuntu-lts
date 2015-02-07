@@ -171,25 +171,3 @@ end
 apt_package "ntp" do
   action :upgrade # see actions section below
 end
-
-###
-# Install LVM for partitioning
-###
-apt_package "lvm2" do
-  action :upgrade # see actions section below
-end
-
-###
-# Partition 
-###
-
-cookbook_file "tmp/partitioning.sh" do
-  source "config/partitioning.sh"
-  mode 0700
-  owner "root"
-  group "root"
-end
-
-execute "partition the second disk" do
-  command "bash /tmp/partitioning.sh"
-end

@@ -1,0 +1,132 @@
+{
+  "builders": [
+    {
+      "access_key": "{{user `aws_access_key_id`}}",
+      "ami_block_device_mappings": [
+        {
+          "delete_on_termination": true,
+          "device_name": "/dev/sda1",
+          "volume_size": 30,
+          "volume_type": "gp2"
+        },
+        {
+          "delete_on_termination": true,
+          "device_name": "/dev/sdl",
+          "volume_size": 10,
+          "volume_type": "gp2"
+        },
+        {
+          "delete_on_termination": true,
+          "device_name": "/dev/sdm",
+          "volume_size": 10,
+          "volume_type": "gp2"
+        },
+        {
+          "delete_on_termination": true,
+          "device_name": "/dev/sdn",
+          "volume_size": 10,
+          "volume_type": "gp2"
+        }
+      ],
+      "ami_name": "test-packer-amazon-multi-ebs {{timestamp}}",
+      "instance_type": "m3.medium",
+      "launch_block_device_mappings": [
+        {
+          "delete_on_termination": true,
+          "device_name": "/dev/sda1",
+          "volume_size": 30,
+          "volume_type": "gp2"
+        },
+        {
+          "delete_on_termination": true,
+          "device_name": "/dev/sdl",
+          "volume_size": 10,
+          "volume_type": "gp2"
+        },
+        {
+          "delete_on_termination": true,
+          "device_name": "/dev/sdm",
+          "volume_size": 10,
+          "volume_type": "gp2"
+        },
+        {
+          "delete_on_termination": true,
+          "device_name": "/dev/sdn",
+          "volume_size": 10,
+          "volume_type": "gp2"
+        }
+      ],
+      "region": "us-east-1",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "source_ami": "ami-9eaa1cf6",
+      "ssh_username": "ubuntu",
+      "tags": {
+        "Name": "ozzy-johnson-packer-chroot-test",
+        "client": "DevOps"
+      },
+      "type": "amazon-ebs"
+    }
+  ],
+  "post-processors": null,
+  "provisioners": [
+    {
+      "destination": "~/boot.sh",
+      "source": "aws-ephemeral-mounts/boot.sh",
+      "type": "file"
+    },
+    {
+      "destination": "~/breakout.sh",
+      "source": "scripts/breakout.sh",
+      "type": "file"
+    },
+    {
+      "destination": "~/breakout_run.sh",
+      "source": "scripts/breakout_run.sh",
+      "type": "file"
+    },
+    {
+      "inline": [
+        "sudo mv ~/boot.sh /etc/init.d/ephemeral",
+        "sudo mkdir -p /var/log/audit"
+      ],
+      "type": "shell"
+    },
+    {
+      "execute_command": "{{ .Vars }} sudo -E bash '{{ .Path }}'",
+      "scripts": [
+        "aws-ephemeral-mounts/install.sh",
+        "scripts/set_ephemeral.sh",
+        "scripts/breakout_run.sh",
+        "scripts/mk_fstab.sh"
+      ],
+      "type": "shell"
+    },
+    {
+      "inline": [
+        "rm ~/breakout.sh",
+        "rm ~/breakout_run.sh"
+      ],
+      "type": "shell"
+    },
+    {
+      "type": "chef-solo",
+      "cookbook_paths": [
+        "../vendor/cookbooks"
+      ],
+      "run_list": [
+	"apt-upgrade-once::default",
+        "packer::default"
+      ],
+      "json": {
+        "grub_passwd": "hello"
+      }
+    }
+  ],
+  "variables": {
+    "aws_access_key_id": "",
+    "aws_secret_key": "",
+    "grub_passwd": "",
+    "s3_bucket": ""
+  }
+}
+
