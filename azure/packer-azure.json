@@ -1,0 +1,35 @@
+{
+  "variables": {
+    "azure_publish_settings_path": "",
+    "azure_subscription_name": "",
+    "azure_storage_account": "",
+    "azure_storage_account_container": "",
+    "azure_region": "",
+    "azure_instance_size": ""
+  },
+  "builders": [
+    {
+      "type": "azure",
+      "publish_settings_path": "{{user `azure_publish_settings_path`}}",
+      "subscription_name": "{{user `azure_subscription_name`}}",
+      "storage_account": "{{user `azure_storage_account`}}",
+      "storage_account_container": "{{user `azure_storage_account_container`}}",
+      "os_type": "Linux",
+      "os_image_label": "Ubuntu Server 14.04 LTS",
+      "location": "{{user `azure_region`}}",
+      "instance_size": "{{user `azure_instance_size`}}",
+      "user_image_label": "FISMA-Ready-Baseline-Ubuntu-Packer"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "chef-solo",
+      "cookbook_paths": [
+        "../vendor/cookbooks"
+      ],
+      "run_list": [
+        "packer::azure"
+      ]
+    }
+  ]
+}
