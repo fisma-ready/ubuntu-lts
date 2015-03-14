@@ -1,6 +1,6 @@
 # Ubuntu LTS is FISMA Ready
 
-This project creates hardened, FISMA Ready Ubuntu LTS Amazon Machine Instances (AMIs) that are suitable for use in Amazon Web Services (AWS). To be FISMA Ready, the AMI must be instantitated in either the US-East or US-West regions of AWS, or the AWS GovCloud, in order to properly inherit the AWS controls assessed by the [FedRAMP program](http://cloud.cio.gov/fedramp). We recommend additional customer level controls on top of the FedRAMP authorization for the AWS Console, and will be releasing those soon.
+This project creates hardened, FISMA Ready Ubuntu LTS Amazon Machine Instances (AMIs) that are suitable for use in Amazon Web Services (AWS). To be FISMA Ready, the AMI must be instantitated in either the US-East or US-West regions of AWS, or the AWS GovCloud, in order to properly inherit the AWS controls assessed by the [FedRAMP program](http://www.fedramp.gov/). We recommend additional customer level controls on top of the FedRAMP authorization for the AWS Console, and will be releasing those soon.
 
 We are also working to expand support for other deployment environments and image types.
 
