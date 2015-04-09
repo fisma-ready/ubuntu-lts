@@ -42,6 +42,11 @@ Packer v0.7.5
 export AWS_ACCESS_KEY_ID=[your AWS access key]
 export AWS_SECRET_ACCESS_KEY=[your AWS secret key]
 ```
+* Clone the repository 
+```bash
+$ git clone https://github.com/fisma-ready/ubuntu-lts.git
+$ cd ubuntu-lts
+```
 
 ## Building the AMI
 
