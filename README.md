@@ -20,9 +20,9 @@ Prepared and maintained by **[18F](https://18f.gsa.gov)**, a Federal digital ser
 
 ## Setup
 
-* Install the [Chef Development Kit for your OS](http://downloads.getchef.com/chef-dk/mac/#/). This includes both Knife and [Berkshelf](http://berkshelf.com/), which are critical dependencies.
+* Install the [Chef Development Kit for your OS](https://downloads.chef.io/chef-dk/mac/#/). This includes both Knife and [Berkshelf](http://berkshelf.com/), which are critical dependencies.
 
-* Install [Packer for your OS](http://www.packer.io/intro/getting-started/setup.html). For Mac OSX users, we highly recommend using a package manager like [Homebrew](http://brew.sh/) and then running:
+* Install [Packer for your OS](https://www.packer.io/intro/getting-started/setup.html). For Mac OS X users, we highly recommend using a package manager like [Homebrew](http://brew.sh/) and then running:
 
 ```bash
 $ brew doctor
