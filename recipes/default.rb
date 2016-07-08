@@ -16,7 +16,6 @@ cookbook_file "/etc/modprobe.d/18Fhardened.conf" do
   group "root"
 end
 
-
 ###
 # Redirect protections
 # See https://github.com/18F/ubuntu/blob/master/hardening.md#redirect-protections
@@ -183,13 +182,21 @@ end
 # Partition 
 ###
 
-cookbook_file "tmp/partitioning.sh" do
-  source "config/partitioning.sh"
+apt_package 'openssh-server'
+
+# disable lxcfs to prevent rsync error when copying /var/lib/lxcfs/cgroup*
+service "lxcfs" do
+  action :stop
+  notifies :run, 'execute[partition the second disk]', :before
+  not_if { platform?('ubuntu') && node['platform_version'].to_f < 16.04 }
+end
+
+cookbook_file "/partitioning.sh" do
   mode 0700
-  owner "root"
-  group "root"
+  notifies :run, 'execute[partition the second disk]', :delayed
 end
 
 execute "partition the second disk" do
-  command "bash /tmp/partitioning.sh"
+  command "bash partitioning.sh"
+  action :nothing
 end
