@@ -57,11 +57,13 @@
       ],
       "json": {
         "grub_passwd": "hello"
-       }
       },
-      {
+      "staging_directory": "/chef"
+    },
+    {
       "inline": [
-        "truncate -s0 /home/ubuntu/.ssh/authorized_keys"
+        "truncate -s0 /home/ubuntu/.ssh/authorized_keys",
+        "sudo rm -rf /chef"
       ],
       "type": "shell"
     }
