@@ -1,0 +1,112 @@
+{
+  "variables": {
+    "aws_access_key_id": "",
+    "aws_secret_key": "",
+    "s3_bucket": "",
+    "grub_passwd": ""
+  },
+  "builders": [
+    {
+      "name": "ubuntu-1604",
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key_id`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "us-west-2",
+      "source_ami": "ami-b9ff39d9",
+      "instance_type": "m3.medium",
+      "ssh_username": "ubuntu",
+      "tags": {
+        "name": "login-base-image"
+      },
+      "ami_name": "FISMA Ready Baseline Ubuntu 16.04 ({{timestamp}} - Packer)",
+      "ami_description": "A FISMA-ready baseline Ubuntu 16.04 image based on Canoncical Ubuntu Xenial 16.04 LTS (ami-b9ff39d9). For more info: https://github.com/fisma-ready/ubuntu-lts",
+      "ami_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_type": "gp2",
+          "volume_size": 30,
+          "delete_on_termination": true
+        },
+        {
+          "device_name": "/dev/sdk",
+          "volume_size": 40,
+          "volume_type": "gp2",
+          "delete_on_termination": true
+        }
+        ],
+      "launch_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_type": "gp2",
+          "volume_size": 30,
+          "delete_on_termination": true
+        },
+        {
+          "device_name": "/dev/sdk",
+          "volume_size": 40,
+          "volume_type": "gp2",
+          "delete_on_termination": true
+        }
+      ]
+    },
+    {
+      "name": "ubuntu-1404",
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key_id`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "us-west-2",
+      "source_ami": "ami-d732f0b7",
+      "instance_type": "m3.medium",
+      "ssh_username": "ubuntu",
+      "tags": {
+        "name": "login-base-image"
+      },
+      "ami_name": "FISMA Ready Baseline Ubuntu 14.04 ({{timestamp}} - Packer)",
+      "ami_description": "A FISMA-ready baseline Ubuntu 14.04 image based on Canoncical Ubuntu Trusty 14.04 LTS (ami-d732f0b7). For more info: https://github.com/fisma-ready/ubuntu-lts",
+      "ami_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_type": "gp2",
+          "volume_size": 30,
+          "delete_on_termination": true
+        },
+        {
+          "device_name": "/dev/sdk",
+          "volume_size": 40,
+          "volume_type": "gp2",
+          "delete_on_termination": true
+        }
+        ],
+      "launch_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_type": "gp2",
+          "volume_size": 30,
+          "delete_on_termination": true
+        },
+        {
+          "device_name": "/dev/sdk",
+          "volume_size": 40,
+          "volume_type": "gp2",
+          "delete_on_termination": true
+        }
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "chef-solo",
+      "cookbook_paths": ["cookbooks"],
+      "json": { "grub_passwd": "hello" },
+      "run_list": ["recipe[packer]"],
+      "staging_directory": "/chef"
+    },
+    {
+      "inline": [
+        "sudo rm -rf /chef /etc/chef",
+        "truncate -s0 /home/ubuntu/.ssh/authorized_keys"
+      ],
+      "type": "shell"
+    }
+  ]
+}
