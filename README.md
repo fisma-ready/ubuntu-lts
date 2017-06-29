@@ -26,7 +26,6 @@ Prepared and maintained by **[18F](https://18f.gsa.gov)**, a Federal digital ser
 
 ```bash
 $ brew doctor
-$ brew tap homebrew/binary
 $ brew install packer
 ```
 At press time, we used Packer 0.7.5
